@@ -6,8 +6,10 @@ import (
 )
 
 type Book struct {
-	Id   int    `gorm:"size:11;primary_key;AUTO_INCREMENT;not null" json:"id"`
-	Name string `gorm:"type:varchar(255);"column:name" json:"name"`
+	Id         int    `gorm:"size:11;primary_key;AUTO_INCREMENT;not null" json:"id"`
+	BookName   string `gorm:"type:varchar(255);"column:book_name" json:"bookName"`
+	BookIntro  string `gorm:"type:varchar(255);"column:book_intro" json:"bookIntro"`
+	BookAuthor string `gorm:"type:varchar(255);"column:book_author" json:"bookAuthor"`
 }
 
 func Books() ([]*Book, error) {

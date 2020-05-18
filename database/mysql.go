@@ -11,7 +11,7 @@ var DB *gorm.DB
 /*初始化时运行的方法*/
 func init() {
 	var err error
-	DB, err = gorm.Open("mysql", "root:12345678@tcp(localhost:3306)/book?charset=utf8&parseTime=True&readTimeout=500ms")
+	DB, err = gorm.Open("mysql", "root:123456@tcp(localhost:3306)/fantasy?charset=utf8&parseTime=True&readTimeout=500ms")
 	if err != nil {
 		log.Printf("mysql connect error %v\n", err)
 	}
