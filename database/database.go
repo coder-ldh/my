@@ -1,4 +1,4 @@
-package models
+package database
 
 import (
 	_ "github.com/go-sql-driver/mysql"
@@ -10,13 +10,13 @@ var DB *gorm.DB
 
 var name *string
 
-func init(){
+func init() {
 	var err error
 	println(DB)
 	println(name)
 
 	println(name)
-	DB, err := gorm.Open("mysql", "root:12345678@tcp(localhost:3306)/book?charset=utf8&parseTime=True&readTimeout=500ms")
+	DB, err = gorm.Open("mysql", "root:12345678@tcp(localhost:3306)/book?charset=utf8&parseTime=True&readTimeout=500ms")
 	if err != nil {
 		log.Printf("mysql connect error %v\n", err)
 	}
