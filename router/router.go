@@ -1,10 +1,15 @@
 package router
+
 import (
 	"github.com/gin-gonic/gin"
-	."my/api"
+	. "my/api"
 )
-func InnitRouter() *gin.Engine{
+
+func InnitRouter() *gin.Engine {
 	Engine := gin.Default()
-	Engine.GET("/user/list", Books)
+	Engine.GET("/book/list", Books)
+	Engine.GET("/book/section/:num", BookSectionByNum)
+	Engine.GET("/section/list", Books)
+	Engine.GET("/section/{}", Books)
 	return Engine
 }

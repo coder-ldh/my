@@ -1,4 +1,5 @@
 package api
+
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -6,10 +7,10 @@ import (
 	"net/http"
 )
 
-func Books(c *gin.Context){
+func Books(c *gin.Context) {
 
 	result, err := models.Books()
-	if err != nil{
+	if err != nil {
 		fmt.Print(err)
 		c.JSON(http.StatusOK, gin.H{
 			"code":    -1,
@@ -19,7 +20,12 @@ func Books(c *gin.Context){
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"code" : 1,
-		"data" : result,
+		"code": 1,
+		"data": result,
 	})
+}
+
+func BookSectionByNum(c *gin.Context) {
+	num := c.Query("num")
+	println(num)
 }
