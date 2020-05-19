@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/olivere/elastic/v7"
 	orm "my/database"
 	"strconv"
 )
@@ -31,11 +32,11 @@ func BookMysqlToEs() (err error) {
 		fmt.Errorf("BookMysqlToEs（） 查询返回失败")
 		return error
 	}
+	var bulk = orm.Es.Bulk()
 	for i := range books {
-		_, err := orm.Es.Index().Index("book").Id(strconv.Itoa(books[i].Id)).BodyJson(books[i]).Do(context.Background())
-		if err != nil {
-			fmt.Sprintf(" BookMysqlToEs Index err:%s", err.Error())
-		}
+		indexRequest := elastic.NewBulkIndexRequest().Index("book").Id(strconv.Itoa(books[i].Id)).Doc(books[i])
+		bulk.Add(indexRequest)
 	}
+	bulk.Do(context.Background())
 	return nil
 }

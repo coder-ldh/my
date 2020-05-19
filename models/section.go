@@ -1,9 +1,9 @@
 package models
 
 import (
-	"context"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"github.com/olivere/elastic/v7"
 	orm "my/database"
 	"strconv"
 )
@@ -26,17 +26,16 @@ func Sections() ([]*Section, error) {
 }
 
 func SectionMysqlToEs() (err error) {
-	var s []*Section
-	error := orm.DB.Find(&s).Error
+	var section []*Section
+	error := orm.DB.Find(&section).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		fmt.Errorf("SectionMysqlToEs（） 查询返回失败")
 		return error
 	}
-	for i := range s {
-		_, err := orm.Es.Index().Index("section").Id(strconv.Itoa(s[i].Id)).BodyJson(s[i]).Do(context.Background())
-		if err != nil {
-			fmt.Sprintf(" SectionMysqlToEs Index err:%s", err.Error())
-		}
+	var bulk = orm.BulkService
+	for i := range section {
+		indexRequest := elastic.NewBulkIndexRequest().Index("section").Id(strconv.Itoa(section[i].Id)).Doc(section[i])
+		bulk.Add(indexRequest)
 	}
 	return nil
 }

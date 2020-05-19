@@ -63,7 +63,7 @@ func BookQuery(c *gin.Context) {
 	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
 		pageSize = i
 	}
-	esQuery := elastic.NewMultiMatchQuery(key, "bookName", "bookIntro", "bookAuthor").
+	esQuery := elastic.NewMultiMatchQuery(key, "BookName", "BookIntro", "BookAuthor").
 		Fuzziness("2")
 	searchResult, err := orm.Es.Search().Index("book").Query(esQuery).
 		From(pageNum).Size(pageSize).
