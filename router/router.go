@@ -12,5 +12,6 @@ func InnitRouter() *gin.Engine {
 	Engine.GET("/book/section/:num", BookSectionByNum)
 	Engine.GET("/section/list", Books)
 	Engine.GET("/section/{}", Books)
+	Engine.GET("/syn", Syn)
 	return Engine
 }

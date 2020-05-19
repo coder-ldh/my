@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	orm "my/database"
@@ -23,14 +24,18 @@ func Books() ([]*Book, error) {
 	return books, nil
 }
 
-func BookMysqlToEs() {
+func BookMysqlToEs() (err error) {
 	var books []*Book
 	error := orm.DB.Find(&books).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		fmt.Errorf("BookMysqlToEs（） 查询返回失败")
-		return
+		return error
 	}
 	for i := range books {
-		orm.Es.Index().Index("book").Id(strconv.Itoa(books[i].Id)).BodyJson(books[i])
+		_, err := orm.Es.Index().Index("book").Id(strconv.Itoa(books[i].Id)).BodyJson(books[i]).Do(context.Background())
+		if err != nil {
+			fmt.Sprintf(" BookMysqlToEs Index err:%s", err.Error())
+		}
 	}
+	return nil
 }
