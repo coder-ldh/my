@@ -20,3 +20,14 @@ func Books() ([]*Book, error) {
 	}
 	return books, nil
 }
+
+func MysqlToEs() {
+	var books []*Book
+	error := orm.DB.Find(&books).Error
+	if error != nil && error != gorm.ErrRecordNotFound {
+
+		return
+	}
+
+	//orm.Es.Index().Index("book").Id()
+}

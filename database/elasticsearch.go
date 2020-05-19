@@ -2,19 +2,17 @@ package database
 
 import (
 	"fmt"
+	es "github.com/olivere/elastic/v7"
 	"os"
 )
-import (
-	"github.com/elastic/go-elasticsearch/v7"
-)
 
-var es *elasticsearch.Client
+var Es *es.Client
 
 func init() {
 	var err error
-	config := elasticsearch.Config{}
-	config.Addresses = []string{"http://127.0.0.1:9200"}
-	es, err = elasticsearch.NewClient(config)
+	addr := []string{"http://127.0.0.1:9200"}
+	cli := es.SetURL(addr...)
+	Es, err = es.NewClient(es.SetSniff(false), cli)
 	checkError(err)
 }
 

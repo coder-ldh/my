@@ -26,6 +26,9 @@ func Books(c *gin.Context) {
 }
 
 func BookSectionByNum(c *gin.Context) {
-	num := c.Query("num")
-	println(num)
+	num := c.Param("num")
+	c.JSON(http.StatusOK, gin.H{
+		"code":    -1,
+		"message": num,
+	})
 }
