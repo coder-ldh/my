@@ -1,8 +1,10 @@
 package models
 
 import (
+	"fmt"
 	"github.com/jinzhu/gorm"
 	orm "my/database"
+	"strconv"
 )
 
 type Book struct {
@@ -21,13 +23,14 @@ func Books() ([]*Book, error) {
 	return books, nil
 }
 
-func MysqlToEs() {
+func BookMysqlToEs() {
 	var books []*Book
 	error := orm.DB.Find(&books).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
-
+		fmt.Errorf("BookMysqlToEs（） 查询返回失败")
 		return
 	}
-
-	//orm.Es.Index().Index("book").Id()
+	for i := range books {
+		orm.Es.Index().Index("book").Id(strconv.Itoa(books[i].Id)).BodyJson(books[i])
+	}
 }
