@@ -17,6 +17,7 @@ func init() {
 	Es, err = es.NewClient(es.SetSniff(false), cli)
 	checkError(err)
 	BulkService, err = Es.BulkProcessor().Name("EsBackgroundWorker-1").Workers(2).BulkSize(100).Do(context.Background())
+	checkError(err)
 }
 
 func checkError(err error) {

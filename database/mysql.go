@@ -18,5 +18,6 @@ func init() {
 	if DB.Error != nil {
 		log.Printf("database error %v\n", DB.Error)
 	}
+	DB.LogMode(true)
 	DB.SingularTable(true)
 }

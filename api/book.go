@@ -31,7 +31,15 @@ type SearchResponse struct {
 }
 
 func Books(c *gin.Context) {
-	results, err := models.Books()
+	pageNum := 1
+	pageSize := 10
+	if i, err := strconv.Atoi(c.Query("pageNum")); err == nil {
+		pageNum = i
+	}
+	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
+		pageSize = i
+	}
+	results, err := models.Books(pageNum, pageSize)
 	if err != nil {
 		fmt.Print(err)
 		result.Fail(c, err.Error())

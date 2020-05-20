@@ -16,9 +16,9 @@ type Section struct {
 	SectionContent string `gorm:"type:text;"column:section_content" json:"sectionContent"`
 }
 
-func Sections() ([]*Section, error) {
+func Sections(pageNum int, pageSize int) ([]*Section, error) {
 	var s []*Section
-	err := orm.DB.Find(s).Error
+	err := orm.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&s).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}

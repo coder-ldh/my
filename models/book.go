@@ -16,9 +16,9 @@ type Book struct {
 	BookAuthor string `gorm:"type:varchar(255);"column:book_author" json:"bookAuthor"`
 }
 
-func Books() ([]*Book, error) {
+func Books(pageNum int, pageSize int) ([]*Book, error) {
 	var books []*Book
-	error := orm.DB.Find(&books).Error
+	error := orm.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&books).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		return nil, error
 	}
