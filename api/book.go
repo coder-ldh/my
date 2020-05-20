@@ -9,7 +9,6 @@ import (
 	orm "my/database"
 	"my/models"
 	"my/result"
-	"net/http"
 	"strconv"
 )
 
@@ -32,21 +31,13 @@ type SearchResponse struct {
 }
 
 func Books(c *gin.Context) {
-
-	result, err := models.Books()
+	results, err := models.Books()
 	if err != nil {
 		fmt.Print(err)
-		c.JSON(http.StatusOK, gin.H{
-			"code":    -1,
-			"message": "抱歉未找到相关信息",
-		})
+		result.Fail(c, err.Error())
 		return
 	}
-
-	c.JSON(http.StatusOK, gin.H{
-		"code": 1,
-		"data": result,
-	})
+	result.SuccessObj(c, results)
 }
 
 func BookQuery(c *gin.Context) {
@@ -90,8 +81,9 @@ func BookQuery(c *gin.Context) {
 
 func BookSectionByNum(c *gin.Context) {
 	num := c.Param("num")
-	c.JSON(http.StatusOK, gin.H{
-		"code":    -1,
-		"message": num,
-	})
+	if num == "" {
+		result.Fail(c, "num not specified")
+		return
+	}
+	result.Success(c, num)
 }
