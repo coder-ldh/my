@@ -3,28 +3,19 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"my/models"
-	"net/http"
+	"my/result"
 )
 
 func Syn(c *gin.Context) {
 	err := models.BookMysqlToEs()
 	error := models.SectionMysqlToEs()
 	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": "500",
-			"msg":  err,
-		})
+		result.Fail(c, err.Error())
 		return
 	}
 	if error != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": "500",
-			"msg":  error,
-		})
+		result.Fail(c, error.Error())
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{
-		"code": "200",
-		"msg":  "操作成功",
-	})
+	result.Success(c, "操作成功")
 }
