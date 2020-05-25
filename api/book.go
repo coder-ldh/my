@@ -54,7 +54,7 @@ func BookQuery(c *gin.Context) {
 		result.Fail(c, "Query not specified")
 		return
 	}
-	pageNum := 0
+	pageNum := 1
 	pageSize := 10
 	if i, err := strconv.Atoi(c.Query("pageNum")); err == nil {
 		pageNum = i
@@ -65,7 +65,7 @@ func BookQuery(c *gin.Context) {
 	esQuery := elastic.NewMultiMatchQuery(key, "BookName", "BookIntro", "BookAuthor").
 		Fuzziness("2")
 	searchResult, err := orm.Es.Search().Index("book").Query(esQuery).
-		From(pageNum).Size(pageSize).
+		From(pageNum - 1).Size(pageSize).
 		Do(c.Request.Context())
 	if err != nil {
 		log.Println(err)
@@ -94,4 +94,17 @@ func BookSectionByNum(c *gin.Context) {
 		return
 	}
 	result.Success(c, num)
+}
+
+func BookById(c *gin.Context) {
+	bookId := c.Param("bookId")
+	if bookId == "" {
+		result.Fail(c, "bookId not specified")
+		return
+	}
+	book, err := models.GetBookByIdFromEs(bookId)
+	if err != nil {
+		result.Fail(c, err.Error())
+	}
+	result.SuccessObj(c, book)
 }

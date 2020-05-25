@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/olivere/elastic/v7"
@@ -10,10 +11,11 @@ import (
 )
 
 type Book struct {
-	Id         int    `gorm:"size:11;primary_key;AUTO_INCREMENT;not null" json:"id"`
-	BookName   string `gorm:"type:varchar(255);"column:book_name" json:"bookName"`
-	BookIntro  string `gorm:"type:varchar(255);"column:book_intro" json:"bookIntro"`
-	BookAuthor string `gorm:"type:varchar(255);"column:book_author" json:"bookAuthor"`
+	Id           int    `gorm:"size:11;primary_key;AUTO_INCREMENT;not null" json:"id"`
+	BookName     string `gorm:"type:varchar(255);"column:book_name" json:"bookName"`
+	BookIntro    string `gorm:"type:varchar(255);"column:book_intro" json:"bookIntro"`
+	BookAuthor   string `gorm:"type:varchar(255);"column:book_author" json:"bookAuthor"`
+	BookImageUrl string `gorm:"type:varchar(255);"column:book_image_url" json:"bookImageUrl"`
 }
 
 func Books(pageNum int, pageSize int) ([]*Book, error) {
@@ -23,6 +25,16 @@ func Books(pageNum int, pageSize int) ([]*Book, error) {
 		return nil, error
 	}
 	return books, nil
+}
+
+func GetBookByIdFromEs(bookId string) (*Book, error) {
+	var book *Book
+	getResult, err := orm.Es.Get().Index("book").Id(bookId).Do(context.Background())
+	if err != nil {
+		return nil, err
+	}
+	json.Unmarshal(getResult.Source, &book)
+	return book, nil
 }
 
 func BookMysqlToEs() (err error) {
