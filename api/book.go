@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/olivere/elastic/v7"
 	"log"
-	orm "my/database"
+	"my/global/response"
+	orm "my/initialize"
 	"my/models"
-	"my/result"
 	"strconv"
 )
 
@@ -42,16 +42,16 @@ func Books(c *gin.Context) {
 	results, err := models.Books(pageNum, pageSize)
 	if err != nil {
 		fmt.Print(err)
-		result.Fail(c, err.Error())
+		response.Fail(c, err.Error())
 		return
 	}
-	result.SuccessObj(c, results)
+	response.SuccessObj(c, results)
 }
 
 func BookQuery(c *gin.Context) {
 	key := c.Query("query")
 	if key == "" {
-		result.Fail(c, "Query not specified")
+		response.Fail(c, "Query not specified")
 		return
 	}
 	pageNum := 1
@@ -69,7 +69,7 @@ func BookQuery(c *gin.Context) {
 		Do(c.Request.Context())
 	if err != nil {
 		log.Println(err)
-		result.Fail(c, "Something went wrong")
+		response.Fail(c, "Something went wrong")
 		return
 	}
 	res := SearchResponse{
@@ -83,28 +83,28 @@ func BookQuery(c *gin.Context) {
 		docs = append(docs, doc)
 	}
 	res.Documents = docs
-	result.SuccessObj(c, res)
+	response.SuccessObj(c, res)
 	return
 }
 
 func BookSectionByNum(c *gin.Context) {
 	num := c.Param("num")
 	if num == "" {
-		result.Fail(c, "num not specified")
+		response.Fail(c, "num not specified")
 		return
 	}
-	result.Success(c, num)
+	response.Success(c, num)
 }
 
 func BookById(c *gin.Context) {
 	bookId := c.Param("bookId")
 	if bookId == "" {
-		result.Fail(c, "bookId not specified")
+		response.Fail(c, "bookId not specified")
 		return
 	}
 	book, err := models.GetBookByIdFromEs(bookId)
 	if err != nil {
-		result.Fail(c, err.Error())
+		response.Fail(c, err.Error())
 	}
-	result.SuccessObj(c, book)
+	response.SuccessObj(c, book)
 }

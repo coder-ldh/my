@@ -2,8 +2,8 @@ package api
 
 import (
 	"github.com/gin-gonic/gin"
+	"my/global/response"
 	"my/models"
-	"my/result"
 	"strconv"
 )
 
@@ -18,7 +18,7 @@ func Sections(c *gin.Context) {
 	}
 	sections, err := models.Sections(pageNum, pageSize)
 	if err != nil {
-		result.Fail(c, err.Error())
+		response.Fail(c, err.Error())
 	}
-	result.SuccessObj(c, sections)
+	response.SuccessObj(c, sections)
 }
