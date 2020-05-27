@@ -34,17 +34,16 @@ func JWTAuth() gin.HandlerFunc {
 			return
 		}
 		j := NewJWT()
-		// parseToken 解析token包含的信息
 		claims, err := j.ParseToken(token)
 		if err != nil {
 			if err == TokenExpired {
-				response.Result(response.ERROR, gin.H{
+				response.Result(response.UNAUTHORIZED, gin.H{
 					"reload": true,
 				}, "授权已过期", c)
 				c.Abort()
 				return
 			}
-			response.Result(response.ERROR, gin.H{
+			response.Result(response.UNAUTHORIZED, gin.H{
 				"reload": true,
 			}, err.Error(), c)
 			c.Abort()

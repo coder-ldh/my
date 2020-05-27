@@ -5,40 +5,8 @@ import (
 	"github.com/casbin/casbin/util"
 	gormadapter "github.com/casbin/gorm-adapter"
 	"my/global"
-	"my/model/request"
 	"strings"
 )
-
-// @title    GetPolicyPathByAuthorityId
-// @description   get policy path by authorityId, 获取权限列表
-// @auth                     （2020/04/05  20:22）
-// @param     authorityId     string
-// @return                    []string
-
-func GetPolicyPathByAuthorityId(authorityId string) (pathMaps []request.CasbinInfo) {
-	e := Casbin()
-	list := e.GetFilteredPolicy(0, authorityId)
-	for _, v := range list {
-		pathMaps = append(pathMaps, request.CasbinInfo{
-			Path:   v[1],
-			Method: v[2],
-		})
-	}
-	return pathMaps
-}
-
-// @title    ClearCasbin
-// @description   清除匹配的权限
-// @auth                     （2020/04/05  20:22）
-// @param     v               int
-// @param     p               string
-// @return                    bool
-
-func ClearCasbin(v int, p ...string) bool {
-	e := Casbin()
-	return e.RemoveFilteredPolicy(v, p...)
-
-}
 
 // @title    Casbin
 // @description   store to DB, 持久化到数据库  引入自定义规则

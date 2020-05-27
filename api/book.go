@@ -30,6 +30,14 @@ type SearchResponse struct {
 	Documents []DocumentResponse `json:"documents"`
 }
 
+// @Description 获取书籍列表
+// @Accept  json
+// @Produce  json
+// @Param pageNum path int true "1" ,pageSize path int true "10"
+// @Success 200 {object} model.Book
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /book/list [get]
 func Books(c *gin.Context) {
 	pageNum := 1
 	pageSize := 10

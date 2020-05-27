@@ -3,11 +3,11 @@ package router
 import (
 	"github.com/gin-gonic/gin"
 	"my/api"
-	"my/middleware"
 )
 
 func InitBookRouter(Router *gin.RouterGroup) {
-	ApiRouter := Router.Group("book").Use(middleware.JWTAuth())
+	ApiRouter := Router.Group("book")
+	//.Use(middleware.JWTAuth())
 	//.Use(middleware.CasbinHandler())
 	{
 		ApiRouter.GET("/list", api.Books)

@@ -12,12 +12,17 @@ type Response struct {
 }
 
 const (
-	ERROR   = http.StatusBadRequest
-	SUCCESS = http.StatusOK
+	ERROR        = http.StatusInternalServerError
+	UNAUTHORIZED = http.StatusUnauthorized
+	SUCCESS      = http.StatusOK
 )
 
 func Result(code int, data interface{}, msg string, c *gin.Context) {
-	Result(code, data, msg, c)
+	c.JSON(http.StatusOK, Response{
+		code,
+		data,
+		msg,
+	})
 }
 
 func Fail(c *gin.Context) {
