@@ -9,6 +9,7 @@ import (
 
 const defaultConfigFile = "config.yaml"
 
+/* viper解析配置文件 config.yaml */
 func init() {
 	v := viper.New()
 	v.SetConfigFile(defaultConfigFile)
