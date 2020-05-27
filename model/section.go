@@ -46,7 +46,7 @@ func SectionMysqlToEs() (err error) {
 func SectionListByBookId(bookId string, c *gin.Context) ([]*Section, error) {
 	var sectionList []*Section
 	esQuery := elastic.NewMatchQuery("BookId", bookId)
-	searchResult, err := global.GVA_ES.Search().Index("section").Query(esQuery).Sort("SectionSeq", true).Do(c.Request.Context())
+	searchResult, err := global.GVA_ES.Search().Index("section").Query(esQuery).Sort("SectionSeq", false).Do(c.Request.Context())
 	if err != nil {
 		log.Println(err)
 		return nil, err
