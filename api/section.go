@@ -7,6 +7,15 @@ import (
 	"strconv"
 )
 
+// @Description 章节列表
+// @Accept  json
+// @Produce  json
+// @Param pageNum query int true "1"
+// @Param pageSize query int true "10"
+// @Success 200 {object} response.Response
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /section/list [get]
 func Sections(c *gin.Context) {
 	pageNum := 1
 	pageSize := 10

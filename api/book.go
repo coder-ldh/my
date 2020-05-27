@@ -33,8 +33,9 @@ type SearchResponse struct {
 // @Description 获取书籍列表
 // @Accept  json
 // @Produce  json
-// @Param pageNum path int true "1" ,pageSize path int true "10"
-// @Success 200 {object} model.Book
+// @Param pageNum query int true "1"
+// @Param pageSize query int true "10"
+// @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
 // @Failure 500 {object} response.Response
 // @Router /book/list [get]
@@ -56,7 +57,17 @@ func Books(c *gin.Context) {
 	response.SuccessObj(c, results)
 }
 
-func BookQuery(c *gin.Context) {
+// @Description 搜索书
+// @Accept  json
+// @Produce  json
+// @Param query query string true "三体"
+// @Param pageNum query int true "1"
+// @Param pageSize query int true "10"
+// @Success 200 {object} response.Response
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /book/query [get]
+func Query(c *gin.Context) {
 	key := c.Query("query")
 	if key == "" {
 		response.FailMsg(c, "Query not specified")
@@ -95,15 +106,14 @@ func BookQuery(c *gin.Context) {
 	return
 }
 
-func BookSectionByNum(c *gin.Context) {
-	num := c.Param("num")
-	if num == "" {
-		response.FailMsg(c, "num not specified")
-		return
-	}
-	response.SuccessMsg(c, num)
-}
-
+// @Description 书详情
+// @Accept  json
+// @Produce  json
+// @Param bookId path int true "1"
+// @Success 200 {object} response.Response
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /book/detail/{bookId} [get]
 func BookById(c *gin.Context) {
 	bookId := c.Param("bookId")
 	if bookId == "" {

@@ -25,6 +25,46 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/book/detail/{bookId}": {
+            "get": {
+                "description": "书详情",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "1",
+                        "name": "bookId",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        },
+                        "headers": {
+                            "x-token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/book/list": {
             "get": {
                 "description": "获取书籍列表",
@@ -39,7 +79,14 @@ var doc = `{
                         "type": "integer",
                         "description": "1",
                         "name": "pageNum",
-                        "in": "path",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "10",
+                        "name": "pageSize",
+                        "in": "query",
                         "required": true
                     }
                 ],
@@ -47,7 +94,108 @@ var doc = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/model.Book"
+                            "$ref": "#/definitions/response.Response"
+                        },
+                        "headers": {
+                            "x-token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/book/query": {
+            "get": {
+                "description": "搜索书",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "三体",
+                        "name": "query",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "1",
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "10",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        },
+                        "headers": {
+                            "x-token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/section/list": {
+            "get": {
+                "description": "章节列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "1",
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "10",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
                         },
                         "headers": {
                             "x-token": {
@@ -67,26 +215,6 @@ var doc = `{
         }
     },
     "definitions": {
-        "model.Book": {
-            "type": "object",
-            "properties": {
-                "bookAuthor": {
-                    "type": "string"
-                },
-                "bookImageUrl": {
-                    "type": "string"
-                },
-                "bookIntro": {
-                    "type": "string"
-                },
-                "bookName": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                }
-            }
-        },
         "response.Response": {
             "type": "object",
             "properties": {

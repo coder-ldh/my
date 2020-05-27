@@ -7,12 +7,9 @@ import (
 
 func InitBookRouter(Router *gin.RouterGroup) {
 	ApiRouter := Router.Group("book")
-	//.Use(middleware.JWTAuth())
-	//.Use(middleware.CasbinHandler())
 	{
 		ApiRouter.GET("/list", api.Books)
-		ApiRouter.GET("/query", api.BookQuery)
+		ApiRouter.GET("/query", api.Query)
 		ApiRouter.GET("/detail/:bookId", api.BookById)
-		ApiRouter.GET("/section/:num", api.BookSectionByNum)
 	}
 }
