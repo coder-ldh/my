@@ -1,9 +1,12 @@
 package model
 
 import (
+	"encoding/json"
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"github.com/olivere/elastic/v7"
+	"log"
 	"my/global"
 	"strconv"
 )
@@ -38,4 +41,20 @@ func SectionMysqlToEs() (err error) {
 		bulk.Add(indexRequest)
 	}
 	return nil
+}
+
+func SectionListByBookId(bookId string, c *gin.Context) ([]*Section, error) {
+	var sectionList []*Section
+	esQuery := elastic.NewMatchQuery("BookId", bookId)
+	searchResult, err := global.GVA_ES.Search().Index("section").Query(esQuery).Sort("SectionSeq", true).Do(c.Request.Context())
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	for _, hit := range searchResult.Hits.Hits {
+		var section *Section
+		json.Unmarshal(hit.Source, &section)
+		sectionList = append(sectionList, section)
+	}
+	return sectionList, nil
 }

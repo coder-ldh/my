@@ -31,3 +31,24 @@ func Sections(c *gin.Context) {
 	}
 	response.SuccessObj(c, sections)
 }
+
+// @Description 查询书下所有章节信息
+// @Accept  json
+// @Produce  json
+// @Param bookId path int true "1"
+// @Success 200 {object} response.Response
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /section/book/{bookId} [get]
+func SectionListByBookId(c *gin.Context) {
+	bookId := c.Param("bookId")
+	if bookId == "" {
+		response.FailMsg(c, "bookId not specified")
+		return
+	}
+	sections, err := model.SectionListByBookId(bookId, c)
+	if err != nil {
+		response.FailMsg(c, err.Error())
+	}
+	response.SuccessObj(c, sections)
+}

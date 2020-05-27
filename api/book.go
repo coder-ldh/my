@@ -9,26 +9,9 @@ import (
 	"my/global"
 	"my/global/response"
 	"my/model"
+	"my/model/request"
 	"strconv"
 )
-
-type Document struct {
-	Id         int    `json:"id"`
-	BookName   string `json:"bookName"`
-	BookIntro  string `json:"bookIntro"`
-	BookAuthor string `json:"bookAuthor"`
-}
-
-type DocumentResponse struct {
-	BookName   string `json:"bookName"`
-	BookIntro  string `json:"bookIntro"`
-	BookAuthor string `json:"bookAuthor"`
-}
-type SearchResponse struct {
-	Time      string             `json:"time"`
-	Hits      string             `json:"hits"`
-	Documents []DocumentResponse `json:"documents"`
-}
 
 // @Description 获取书籍列表
 // @Accept  json
@@ -91,18 +74,18 @@ func Query(c *gin.Context) {
 		response.FailMsg(c, "Something went wrong")
 		return
 	}
-	res := SearchResponse{
-		Time: fmt.Sprintf("%d", searchResult.TookInMillis),
-		Hits: fmt.Sprintf("%d", searchResult.Hits.TotalHits),
+	res := request.BookResponse{
+		Time: searchResult.TookInMillis,
+		Hits: searchResult.Hits.TotalHits.Value,
 	}
-	docs := make([]DocumentResponse, 0)
+	bookList := make([]model.Book, 0)
 	for _, hit := range searchResult.Hits.Hits {
-		var doc DocumentResponse
-		json.Unmarshal(hit.Source, &doc)
-		docs = append(docs, doc)
+		var book model.Book
+		json.Unmarshal(hit.Source, &book)
+		bookList = append(bookList, book)
 	}
-	res.Documents = docs
-	response.SuccessObj(c, res)
+	res.Data = bookList
+	response.SuccessObj(c, bookList)
 	return
 }
 

@@ -105,6 +105,32 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+  /section/book/{bookId}:
+    get:
+      consumes:
+      - application/json
+      description: 查询书下所有章节信息
+      parameters:
+      - description: "1"
+        in: path
+        name: bookId
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            x-token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
   /section/list:
     get:
       consumes:
@@ -121,6 +147,26 @@ paths:
         name: pageSize
         required: true
         type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            x-token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+  /syn:
+    get:
+      consumes:
+      - application/json
+      description: mysql数据同步到ES
       produces:
       - application/json
       responses:
