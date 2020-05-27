@@ -17,14 +17,22 @@ const (
 )
 
 func Result(code int, data interface{}, msg string, c *gin.Context) {
-	Result(SUCCESS, map[string]interface{}{}, "操作成功", c)
+	Result(code, data, msg, c)
 }
 
-func Fail(c *gin.Context, msg string) {
+func Fail(c *gin.Context) {
 	Result(ERROR, map[string]interface{}{}, "操作失败", c)
 }
 
-func Success(c *gin.Context, msg string) {
+func FailMsg(c *gin.Context, msg string) {
+	Result(ERROR, map[string]interface{}{}, msg, c)
+}
+
+func Success(c *gin.Context) {
+	Result(SUCCESS, map[string]interface{}{}, "操作成功", c)
+}
+
+func SuccessMsg(c *gin.Context, msg string) {
 	Result(SUCCESS, map[string]interface{}{}, msg, c)
 }
 

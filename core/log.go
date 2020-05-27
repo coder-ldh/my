@@ -2,8 +2,8 @@ package core
 
 import (
 	"fmt"
-	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
-	oplogging "github.com/op/go-logging"
+	rotates "github.com/lestrrat/go-file-rotatelogs"
+	obliging "github.com/op/go-logging"
 	"io"
 	"my/config"
 	"my/global"
@@ -28,18 +28,18 @@ func init() {
 	if c.Prefix == "" {
 		_ = fmt.Errorf("logger prefix not found")
 	}
-	logger := oplogging.MustGetLogger(module)
-	var backends []oplogging.Backend
+	logger := obliging.MustGetLogger(module)
+	var backends []obliging.Backend
 	backends = registerStdout(c, backends)
 	backends = registerFile(c, backends)
 
-	oplogging.SetBackend(backends...)
+	obliging.SetBackend(backends...)
 	global.GVA_LOG = logger
 }
 
-func registerStdout(c config.Log, backends []oplogging.Backend) []oplogging.Backend {
+func registerStdout(c config.Log, backends []obliging.Backend) []obliging.Backend {
 	if c.Stdout != "" {
-		level, err := oplogging.LogLevel(c.Stdout)
+		level, err := obliging.LogLevel(c.Stdout)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -49,27 +49,27 @@ func registerStdout(c config.Log, backends []oplogging.Backend) []oplogging.Back
 	return backends
 }
 
-func registerFile(c config.Log, backends []oplogging.Backend) []oplogging.Backend {
+func registerFile(c config.Log, backends []obliging.Backend) []obliging.Backend {
 	if c.File != "" {
 		if ok, _ := utils.PathExists(logDir); !ok {
 			// directory not exist
 			fmt.Println("create log directory")
 			_ = os.Mkdir(logDir, os.ModePerm)
 		}
-		fileWriter, err := rotatelogs.New(
+		fileWriter, err := rotates.New(
 			logDir+string(os.PathSeparator)+"%Y-%m-%d-%H-%M.log",
 			// generate soft link, point to latest log file
-			rotatelogs.WithLinkName(logSoftLink),
+			rotates.WithLinkName(logSoftLink),
 			// maximum time to save log files
-			rotatelogs.WithMaxAge(7*24*time.Hour),
+			rotates.WithMaxAge(7*24*time.Hour),
 			// time period of log file switching
-			rotatelogs.WithRotationTime(24*time.Hour),
+			rotates.WithRotationTime(24*time.Hour),
 		)
 		if err != nil {
 			fmt.Println(err)
 			return backends
 		}
-		level, err := oplogging.LogLevel(c.File)
+		level, err := obliging.LogLevel(c.File)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -79,19 +79,19 @@ func registerFile(c config.Log, backends []oplogging.Backend) []oplogging.Backen
 	return backends
 }
 
-func createBackend(w io.Writer, c config.Log, level oplogging.Level) oplogging.Backend {
-	backend := oplogging.NewLogBackend(w, c.Prefix, 0)
+func createBackend(w io.Writer, c config.Log, level obliging.Level) obliging.Backend {
+	backend := obliging.NewLogBackend(w, c.Prefix, 0)
 	stdoutWriter := false
 	if w == os.Stdout {
 		stdoutWriter = true
 	}
 	format := getLogFormatter(c, stdoutWriter)
-	backendLeveled := oplogging.AddModuleLevel(oplogging.NewBackendFormatter(backend, format))
+	backendLeveled := obliging.AddModuleLevel(obliging.NewBackendFormatter(backend, format))
 	backendLeveled.SetLevel(level, module)
 	return backendLeveled
 }
 
-func getLogFormatter(c config.Log, stdoutWriter bool) oplogging.Formatter {
+func getLogFormatter(c config.Log, stdoutWriter bool) obliging.Formatter {
 	pattern := defaultFormatter
 	if !stdoutWriter {
 		// Color is only required for console output
@@ -103,5 +103,5 @@ func getLogFormatter(c config.Log, stdoutWriter bool) oplogging.Formatter {
 		// Remove %{logfile} tag
 		pattern = strings.Replace(pattern, "%{longfile}", "", -1)
 	}
-	return oplogging.MustStringFormatter(pattern)
+	return obliging.MustStringFormatter(pattern)
 }

@@ -7,21 +7,20 @@ import (
 	"os"
 )
 
-var DB *gorm.DB
-
 //初始化数据库并产生数据库全局变量
 func Mysql() {
-	admin := global.GVA_CONFIG.Mysql
-	if db, err := gorm.Open("mysql", admin.Username+":"+admin.Password+"@("+admin.Path+")/"+admin.Dbname+"?"+admin.Config); err != nil {
-		global.GVA_LOG.Error("MySQL启动异常", err)
+	mysql := global.GVA_CONFIG.Mysql
+	var url = mysql.Username + ":" + mysql.Password + "@(" + mysql.Path + ")/" + mysql.Dbname + "?" + mysql.Config
+	global.GVA_LOG.Info("MySQL连接信息:", url)
+	if db, err := gorm.Open("mysql", url); err != nil {
+		global.GVA_LOG.Error("MySQL启动异常:", err)
 		os.Exit(0)
 	} else {
-		DB = db
 		/*DB.LogMode(true)*/
-		DB.SingularTable(true)
+		db.SingularTable(true)
 		global.GVA_DB = db
-		global.GVA_DB.DB().SetMaxIdleConns(admin.MaxIdleConns)
-		global.GVA_DB.DB().SetMaxOpenConns(admin.MaxOpenConns)
-		global.GVA_DB.LogMode(admin.LogMode)
+		global.GVA_DB.DB().SetMaxIdleConns(mysql.MaxIdleConns)
+		global.GVA_DB.DB().SetMaxOpenConns(mysql.MaxOpenConns)
+		global.GVA_DB.LogMode(mysql.LogMode)
 	}
 }

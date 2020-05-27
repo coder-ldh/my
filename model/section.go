@@ -1,10 +1,10 @@
-package models
+package model
 
 import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/olivere/elastic/v7"
-	orm "my/database"
+	"my/global"
 	"strconv"
 )
 
@@ -18,7 +18,7 @@ type Section struct {
 
 func Sections(pageNum int, pageSize int) ([]*Section, error) {
 	var s []*Section
-	err := orm.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&s).Error
+	err := global.GVA_DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&s).Error
 	if err != nil && err != gorm.ErrRecordNotFound {
 		return nil, err
 	}
@@ -27,12 +27,12 @@ func Sections(pageNum int, pageSize int) ([]*Section, error) {
 
 func SectionMysqlToEs() (err error) {
 	var section []*Section
-	error := orm.DB.Find(&section).Error
+	error := global.GVA_DB.Find(&section).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		fmt.Errorf("SectionMysqlToEs（） 查询返回失败")
 		return error
 	}
-	var bulk = orm.BulkService
+	var bulk = global.GVA_BulkProcessor
 	for i := range section {
 		indexRequest := elastic.NewBulkIndexRequest().Index("section").Id(strconv.Itoa(section[i].Id)).Doc(section[i])
 		bulk.Add(indexRequest)

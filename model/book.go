@@ -1,4 +1,4 @@
-package models
+package model
 
 import (
 	"context"
@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	"github.com/olivere/elastic/v7"
-	orm "my/database"
+	"my/global"
 	"strconv"
 )
 
@@ -20,7 +20,7 @@ type Book struct {
 
 func Books(pageNum int, pageSize int) ([]*Book, error) {
 	var books []*Book
-	error := orm.DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&books).Error
+	error := global.GVA_DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&books).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		return nil, error
 	}
@@ -29,7 +29,7 @@ func Books(pageNum int, pageSize int) ([]*Book, error) {
 
 func GetBookByIdFromEs(bookId string) (*Book, error) {
 	var book *Book
-	getResult, err := orm.Es.Get().Index("book").Id(bookId).Do(context.Background())
+	getResult, err := global.GVA_ES.Get().Index("book").Id(bookId).Do(context.Background())
 	if err != nil {
 		return nil, err
 	}
@@ -39,12 +39,12 @@ func GetBookByIdFromEs(bookId string) (*Book, error) {
 
 func BookMysqlToEs() (err error) {
 	var books []*Book
-	error := orm.DB.Find(&books).Error
+	error := global.GVA_DB.Find(&books).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
 		fmt.Errorf("BookMysqlToEs（） 查询返回失败")
 		return error
 	}
-	var bulk = orm.Es.Bulk()
+	var bulk = global.GVA_ES.Bulk()
 	for i := range books {
 		indexRequest := elastic.NewBulkIndexRequest().Index("book").Id(strconv.Itoa(books[i].Id)).Doc(books[i])
 		bulk.Add(indexRequest)

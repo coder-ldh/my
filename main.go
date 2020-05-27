@@ -1,11 +1,11 @@
 package main
 
 import (
-	"my/router"
+	"my/core"
+	"my/initialize"
 )
 
 func main() {
-	r := router.InnitRouter()
-
-	r.Run(":9090")
+	initialize.Mysql()
+	core.RunWindowsServer()
 }

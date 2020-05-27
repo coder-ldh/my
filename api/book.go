@@ -6,9 +6,9 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/olivere/elastic/v7"
 	"log"
+	"my/global"
 	"my/global/response"
-	orm "my/initialize"
-	"my/models"
+	"my/model"
 	"strconv"
 )
 
@@ -39,10 +39,10 @@ func Books(c *gin.Context) {
 	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
 		pageSize = i
 	}
-	results, err := models.Books(pageNum, pageSize)
+	results, err := model.Books(pageNum, pageSize)
 	if err != nil {
 		fmt.Print(err)
-		response.Fail(c, err.Error())
+		response.FailMsg(c, err.Error())
 		return
 	}
 	response.SuccessObj(c, results)
@@ -51,7 +51,7 @@ func Books(c *gin.Context) {
 func BookQuery(c *gin.Context) {
 	key := c.Query("query")
 	if key == "" {
-		response.Fail(c, "Query not specified")
+		response.FailMsg(c, "Query not specified")
 		return
 	}
 	pageNum := 1
@@ -64,12 +64,12 @@ func BookQuery(c *gin.Context) {
 	}
 	esQuery := elastic.NewMultiMatchQuery(key, "BookName", "BookIntro", "BookAuthor").
 		Fuzziness("2")
-	searchResult, err := orm.Es.Search().Index("book").Query(esQuery).
+	searchResult, err := global.GVA_ES.Search().Index("book").Query(esQuery).
 		From(pageNum - 1).Size(pageSize).
 		Do(c.Request.Context())
 	if err != nil {
 		log.Println(err)
-		response.Fail(c, "Something went wrong")
+		response.FailMsg(c, "Something went wrong")
 		return
 	}
 	res := SearchResponse{
@@ -90,21 +90,21 @@ func BookQuery(c *gin.Context) {
 func BookSectionByNum(c *gin.Context) {
 	num := c.Param("num")
 	if num == "" {
-		response.Fail(c, "num not specified")
+		response.FailMsg(c, "num not specified")
 		return
 	}
-	response.Success(c, num)
+	response.SuccessMsg(c, num)
 }
 
 func BookById(c *gin.Context) {
 	bookId := c.Param("bookId")
 	if bookId == "" {
-		response.Fail(c, "bookId not specified")
+		response.FailMsg(c, "bookId not specified")
 		return
 	}
-	book, err := models.GetBookByIdFromEs(bookId)
+	book, err := model.GetBookByIdFromEs(bookId)
 	if err != nil {
-		response.Fail(c, err.Error())
+		response.FailMsg(c, err.Error())
 	}
 	response.SuccessObj(c, book)
 }

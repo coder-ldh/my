@@ -3,19 +3,19 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"my/global/response"
-	"my/models"
+	"my/model"
 )
 
 func Syn(c *gin.Context) {
-	err := models.BookMysqlToEs()
-	error := models.SectionMysqlToEs()
+	err := model.BookMysqlToEs()
+	error := model.SectionMysqlToEs()
 	if err != nil {
-		response.Fail(c, err.Error())
+		response.FailMsg(c, err.Error())
 		return
 	}
 	if error != nil {
-		response.Fail(c, error.Error())
+		response.FailMsg(c, error.Error())
 		return
 	}
-	response.Success(c, "操作成功")
+	response.Success(c)
 }

@@ -17,3 +17,5 @@
 # vendor/
 
 .idea/
+/log/
+/latest_log
