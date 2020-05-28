@@ -10,5 +10,6 @@ func InitCaptchaRouter(Router *gin.RouterGroup) {
 	{
 		ApiRouter.GET("/captcha", api.Captcha)
 		ApiRouter.GET("/captcha/:captchaId", api.CaptchaImg)
+		ApiRouter.POST("/captcha/verify", api.VerifyCode)
 	}
 }

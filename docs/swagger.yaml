@@ -13,7 +13,7 @@ info:
   license: {}
 paths:
   /base/captcha:
-    post:
+    get:
       consumes:
       - application/json
       produces:
@@ -40,6 +40,31 @@ paths:
       security:
       - ApiKeyAuth: []
       summary: 生成验证码图片路径
+      tags:
+      - base
+  /base/captcha/verify:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: "1"
+        in: query
+        name: captchaId
+        required: true
+        type: string
+      - description: "1"
+        in: query
+        name: Captcha
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"Code":200,"data":{},"msg":"获取成功"}'
+          schema:
+            type: string
+      summary: 校验验证吗
       tags:
       - base
   /book/detail/{bookId}:

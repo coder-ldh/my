@@ -26,7 +26,7 @@ var doc = `{
     "basePath": "{{.BasePath}}",
     "paths": {
         "/base/captcha": {
-            "post": {
+            "get": {
                 "consumes": [
                     "application/json"
                 ],
@@ -64,6 +64,44 @@ var doc = `{
                     "base"
                 ],
                 "summary": "生成验证码图片路径",
+                "responses": {
+                    "200": {
+                        "description": "{\"Code\":200,\"data\":{},\"msg\":\"获取成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/base/captcha/verify": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "base"
+                ],
+                "summary": "校验验证吗",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "1",
+                        "name": "captchaId",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "1",
+                        "name": "Captcha",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "{\"Code\":200,\"data\":{},\"msg\":\"获取成功\"}",

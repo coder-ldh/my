@@ -11,6 +11,15 @@ import (
 	"time"
 )
 
+/*校验 验证吗饿的正确*/
+func VerifyCode(captchaId string, Captcha string) bool {
+	if captcha.VerifyString(captchaId, Captcha) {
+		return true
+	} else {
+		return false
+	}
+}
+
 // 这里需要自行实现captcha 的gin模式
 func GinCaptchaServeHTTP(w http.ResponseWriter, r *http.Request) {
 	dir, file := path.Split(r.URL.Path)
