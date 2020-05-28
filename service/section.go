@@ -56,3 +56,12 @@ func SectionListByBookId(bookId string, c *gin.Context) ([]*model.Section, error
 	}
 	return sectionList, nil
 }
+
+func SectionById(sectionId int) (*model.Section, error) {
+	s := new(model.Section)
+	err := global.GVA_DB.First(&s, sectionId).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return nil, err
+	}
+	return s, nil
+}

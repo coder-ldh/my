@@ -39,7 +39,7 @@ func Sections(c *gin.Context) {
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
 // @Failure 500 {object} response.Response
-// @Router /section/book/{bookId} [get]
+// @Router /section/list/{bookId} [get]
 func SectionListByBookId(c *gin.Context) {
 	bookId := c.Param("bookId")
 	if bookId == "" {
@@ -47,6 +47,28 @@ func SectionListByBookId(c *gin.Context) {
 		return
 	}
 	sections, err := service.SectionListByBookId(bookId, c)
+	if err != nil {
+		response.FailMsg(c, err.Error())
+	}
+	response.SuccessObj(c, sections)
+}
+
+// @Description 查询书下所有章节信息
+// @Accept  json
+// @Produce  json
+// @Param sectionId path int true "1"
+// @Success 200 {object} response.Response
+// @Header 200 {string} x-token "qwerty"
+// @Failure 500 {object} response.Response
+// @Router /section/one/{sectionId} [get]
+func SectionById(c *gin.Context) {
+	var sectionId int
+	if i, err := strconv.Atoi(c.Param("sectionId")); err == nil {
+		sectionId = i
+	} else {
+		response.FailMsg(c, "sectionId not null")
+	}
+	sections, err := service.SectionById(sectionId)
 	if err != nil {
 		response.FailMsg(c, err.Error())
 	}

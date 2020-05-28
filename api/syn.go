@@ -12,7 +12,7 @@ import (
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
 // @Failure 500 {object} response.Response
-// @Router /syn [get]
+// @Router /syn [post]
 func Syn(c *gin.Context) {
 	err := service.BookMysqlToEs()
 	error := service.SectionMysqlToEs()

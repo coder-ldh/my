@@ -10,6 +10,7 @@ func InitSectionRouter(Router *gin.RouterGroup) {
 	//.Use(middleware.JWTAuth())
 	{
 		ApiRouter.GET("/list", api.Sections)
-		ApiRouter.GET("/book/:bookId", api.SectionListByBookId)
+		ApiRouter.GET("/list/:bookId", api.SectionListByBookId)
+		ApiRouter.GET("/one/:sectionId", api.SectionById)
 	}
 }

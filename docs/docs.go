@@ -166,7 +166,54 @@ var doc = `{
                 }
             }
         },
-        "/section/book/{bookId}": {
+        "/section/list": {
+            "get": {
+                "description": "章节列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "1",
+                        "name": "pageNum",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "description": "10",
+                        "name": "pageSize",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        },
+                        "headers": {
+                            "x-token": {
+                                "type": "string",
+                                "description": "qwerty"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/response.Response"
+                        }
+                    }
+                }
+            }
+        },
+        "/section/list/{bookId}": {
             "get": {
                 "description": "查询书下所有章节信息",
                 "consumes": [
@@ -206,9 +253,9 @@ var doc = `{
                 }
             }
         },
-        "/section/list": {
+        "/section/one/{sectionId}": {
             "get": {
-                "description": "章节列表",
+                "description": "查询书下所有章节信息",
                 "consumes": [
                     "application/json"
                 ],
@@ -219,15 +266,8 @@ var doc = `{
                     {
                         "type": "integer",
                         "description": "1",
-                        "name": "pageNum",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "10",
-                        "name": "pageSize",
-                        "in": "query",
+                        "name": "sectionId",
+                        "in": "path",
                         "required": true
                     }
                 ],
