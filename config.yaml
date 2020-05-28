@@ -1,9 +1,3 @@
-# Gin-Vue-Admin Global Configuration
-
-# casbin configuration
-casbin:
-    model-path: './resource/rbac_model.conf'
-
 # jwt configuration
 jwt:
     signing-key: 'qmPlus'
@@ -25,6 +19,7 @@ qiniu:
     secret-key: 'pgdbqEsf7ooZh7W3xokP833h3dZ_VecFXPDeG5JY'
     bucket: 'qm-plus-img'
     img-path: 'http://qmplusimg.henrongyi.top'
+
 # redis configuration
 redis:
     addr: '127.0.0.1:6379'

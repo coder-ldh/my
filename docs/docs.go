@@ -25,6 +25,55 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/base/captcha": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "base"
+                ],
+                "summary": "生成验证码",
+                "responses": {
+                    "200": {
+                        "description": "{\"Code\":200,\"data\":{},\"msg\":\"获取成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/base/captcha/:captchaId": {
+            "get": {
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "base"
+                ],
+                "summary": "生成验证码图片路径",
+                "responses": {
+                    "200": {
+                        "description": "{\"Code\":200,\"data\":{},\"msg\":\"获取成功\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/book/detail/{bookId}": {
             "get": {
                 "description": "书详情",
@@ -34,6 +83,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "书详情",
                 "parameters": [
                     {
                         "type": "integer",
@@ -74,6 +127,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "获取书籍列表",
                 "parameters": [
                     {
                         "type": "integer",
@@ -121,6 +178,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "搜索书",
                 "parameters": [
                     {
                         "type": "string",
@@ -175,6 +236,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "章节列表",
                 "parameters": [
                     {
                         "type": "integer",
@@ -222,6 +287,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "查询书下所有章节信息",
                 "parameters": [
                     {
                         "type": "integer",
@@ -262,6 +331,10 @@ var doc = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "section"
+                ],
+                "summary": "查询书下所有章节信息",
                 "parameters": [
                     {
                         "type": "integer",
@@ -294,14 +367,17 @@ var doc = `{
             }
         },
         "/syn": {
-            "get": {
-                "description": "mysql数据同步到ES",
+            "post": {
                 "consumes": [
                     "application/json"
                 ],
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "base"
+                ],
+                "summary": "mysql数据同步到ES",
                 "responses": {
                     "200": {
                         "description": "OK",

@@ -12,6 +12,36 @@ info:
   contact: {}
   license: {}
 paths:
+  /base/captcha:
+    post:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"Code":200,"data":{},"msg":"获取成功"}'
+          schema:
+            type: string
+      summary: 生成验证码
+      tags:
+      - base
+  /base/captcha/:captchaId:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: '{"Code":200,"data":{},"msg":"获取成功"}'
+          schema:
+            type: string
+      security:
+      - ApiKeyAuth: []
+      summary: 生成验证码图片路径
+      tags:
+      - base
   /book/detail/{bookId}:
     get:
       consumes:
@@ -38,6 +68,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 书详情
+      tags:
+      - section
   /book/list:
     get:
       consumes:
@@ -69,6 +102,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 获取书籍列表
+      tags:
+      - section
   /book/query:
     get:
       consumes:
@@ -105,6 +141,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 搜索书
+      tags:
+      - section
   /section/list:
     get:
       consumes:
@@ -136,6 +175,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 章节列表
+      tags:
+      - section
   /section/list/{bookId}:
     get:
       consumes:
@@ -162,6 +204,9 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 查询书下所有章节信息
+      tags:
+      - section
   /section/one/{sectionId}:
     get:
       consumes:
@@ -188,11 +233,13 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: 查询书下所有章节信息
+      tags:
+      - section
   /syn:
-    get:
+    post:
       consumes:
       - application/json
-      description: mysql数据同步到ES
       produces:
       - application/json
       responses:
@@ -208,4 +255,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
+      summary: mysql数据同步到ES
+      tags:
+      - base
 swagger: "2.0"

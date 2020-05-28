@@ -7,9 +7,11 @@ import (
 	"strconv"
 )
 
+// @Tags section
 // @Description 章节列表
-// @Accept  json
-// @Produce  json
+// @Summary 章节列表
+// @accept application/json
+// @Produce application/json
 // @Param pageNum query int true "1"
 // @Param pageSize query int true "10"
 // @Success 200 {object} response.Response
@@ -32,9 +34,11 @@ func Sections(c *gin.Context) {
 	response.SuccessObj(c, sections)
 }
 
+// @Tags section
 // @Description 查询书下所有章节信息
-// @Accept  json
-// @Produce  json
+// @Summary 查询书下所有章节信息
+// @accept application/json
+// @Produce application/json
 // @Param bookId path int true "1"
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
@@ -53,9 +57,11 @@ func SectionListByBookId(c *gin.Context) {
 	response.SuccessObj(c, sections)
 }
 
+// @Tags section
 // @Description 查询书下所有章节信息
-// @Accept  json
-// @Produce  json
+// @Summary 查询书下所有章节信息
+// @accept application/json
+// @Produce application/json
 // @Param sectionId path int true "1"
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"

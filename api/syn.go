@@ -6,9 +6,10 @@ import (
 	"my/service"
 )
 
-// @Description mysql数据同步到ES
-// @Accept  json
-// @Produce  json
+// @Tags base
+// @Summary mysql数据同步到ES
+// @accept application/json
+// @Produce application/json
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
 // @Failure 500 {object} response.Response

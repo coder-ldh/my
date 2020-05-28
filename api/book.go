@@ -14,9 +14,11 @@ import (
 	"strconv"
 )
 
+// @Tags section
 // @Description 获取书籍列表
-// @Accept  json
-// @Produce  json
+// @Summary 获取书籍列表
+// @accept application/json
+// @Produce application/json
 // @Param pageNum query int true "1"
 // @Param pageSize query int true "10"
 // @Success 200 {object} response.Response
@@ -41,9 +43,11 @@ func Books(c *gin.Context) {
 	response.SuccessObj(c, results)
 }
 
+// @Tags section
 // @Description 搜索书
-// @Accept  json
-// @Produce  json
+// @Summary 搜索书
+// @accept application/json
+// @Produce application/json
 // @Param query query string true "三体"
 // @Param pageNum query int true "1"
 // @Param pageSize query int true "10"
@@ -90,9 +94,11 @@ func Query(c *gin.Context) {
 	return
 }
 
+// @Tags section
 // @Description 书详情
-// @Accept  json
-// @Produce  json
+// @Summary 书详情
+// @accept application/json
+// @Produce application/json
 // @Param bookId path int true "1"
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
