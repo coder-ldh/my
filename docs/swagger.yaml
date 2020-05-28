@@ -95,7 +95,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: 书详情
       tags:
-      - section
+      - book
   /book/list:
     get:
       consumes:
@@ -129,7 +129,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: 获取书籍列表
       tags:
-      - section
+      - book
   /book/query:
     get:
       consumes:
@@ -168,7 +168,7 @@ paths:
             $ref: '#/definitions/response.Response'
       summary: 搜索书
       tags:
-      - section
+      - book
   /section/list:
     get:
       consumes:

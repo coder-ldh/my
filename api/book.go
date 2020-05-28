@@ -14,7 +14,7 @@ import (
 	"strconv"
 )
 
-// @Tags section
+// @Tags book
 // @Description 获取书籍列表
 // @Summary 获取书籍列表
 // @accept application/json
@@ -43,7 +43,7 @@ func Books(c *gin.Context) {
 	response.SuccessObj(c, results)
 }
 
-// @Tags section
+// @Tags book
 // @Description 搜索书
 // @Summary 搜索书
 // @accept application/json
@@ -94,7 +94,7 @@ func Query(c *gin.Context) {
 	return
 }
 
-// @Tags section
+// @Tags book
 // @Description 书详情
 // @Summary 书详情
 // @accept application/json

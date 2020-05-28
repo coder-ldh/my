@@ -122,7 +122,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "section"
+                    "book"
                 ],
                 "summary": "书详情",
                 "parameters": [
@@ -166,7 +166,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "section"
+                    "book"
                 ],
                 "summary": "获取书籍列表",
                 "parameters": [
@@ -217,7 +217,7 @@ var doc = `{
                     "application/json"
                 ],
                 "tags": [
-                    "section"
+                    "book"
                 ],
                 "summary": "搜索书",
                 "parameters": [
