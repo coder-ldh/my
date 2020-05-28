@@ -10,6 +10,7 @@ import (
 	"my/global/response"
 	"my/model"
 	"my/model/request"
+	"my/service"
 	"strconv"
 )
 
@@ -31,7 +32,7 @@ func Books(c *gin.Context) {
 	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
 		pageSize = i
 	}
-	results, err := model.Books(pageNum, pageSize)
+	results, err := service.Books(pageNum, pageSize)
 	if err != nil {
 		fmt.Print(err)
 		response.FailMsg(c, err.Error())
@@ -103,7 +104,7 @@ func BookById(c *gin.Context) {
 		response.FailMsg(c, "bookId not specified")
 		return
 	}
-	book, err := model.GetBookByIdFromEs(bookId)
+	book, err := service.GetBookByIdFromEs(bookId)
 	if err != nil {
 		response.FailMsg(c, err.Error())
 	}

@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"my/global/response"
-	"my/model"
+	"my/service"
 	"strconv"
 )
 
@@ -25,7 +25,7 @@ func Sections(c *gin.Context) {
 	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
 		pageSize = i
 	}
-	sections, err := model.Sections(pageNum, pageSize)
+	sections, err := service.Sections(pageNum, pageSize)
 	if err != nil {
 		response.FailMsg(c, err.Error())
 	}
@@ -46,7 +46,7 @@ func SectionListByBookId(c *gin.Context) {
 		response.FailMsg(c, "bookId not specified")
 		return
 	}
-	sections, err := model.SectionListByBookId(bookId, c)
+	sections, err := service.SectionListByBookId(bookId, c)
 	if err != nil {
 		response.FailMsg(c, err.Error())
 	}

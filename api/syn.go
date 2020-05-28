@@ -3,7 +3,7 @@ package api
 import (
 	"github.com/gin-gonic/gin"
 	"my/global/response"
-	"my/model"
+	"my/service"
 )
 
 // @Description mysql数据同步到ES
@@ -14,8 +14,8 @@ import (
 // @Failure 500 {object} response.Response
 // @Router /syn [get]
 func Syn(c *gin.Context) {
-	err := model.BookMysqlToEs()
-	error := model.SectionMysqlToEs()
+	err := service.BookMysqlToEs()
+	error := service.SectionMysqlToEs()
 	if err != nil {
 		response.FailMsg(c, err.Error())
 		return
