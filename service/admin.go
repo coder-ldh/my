@@ -6,7 +6,7 @@ import (
 	"my/model"
 )
 
-func Admin(adminId int) (*model.Admin, error) {
+func GetAdminById(adminId int) (*model.Admin, error) {
 	var admin *model.Admin
 	error := global.GVA_DB.Find(&admin, adminId).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
@@ -15,7 +15,7 @@ func Admin(adminId int) (*model.Admin, error) {
 	return admin, nil
 }
 
-func AdminList(pageNum int, pageSize int) ([]*model.Admin, error) {
+func GetAdminList(pageNum int, pageSize int) ([]*model.Admin, error) {
 	var admins []*model.Admin
 	error := global.GVA_DB.Offset((pageNum - 1) * pageSize).Limit(pageSize).Find(&admins).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
@@ -24,7 +24,7 @@ func AdminList(pageNum int, pageSize int) ([]*model.Admin, error) {
 	return admins, nil
 }
 
-func AdminByLoginName(LoginName string) (*model.Admin, error) {
+func GetAdminByLoginName(LoginName string) (*model.Admin, error) {
 	var admin *model.Admin
 	error := global.GVA_DB.Find(&admin).Error
 	if error != nil && error != gorm.ErrRecordNotFound {
