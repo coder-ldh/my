@@ -36,7 +36,7 @@ func SectionMysqlToEs() (err error) {
 	return nil
 }
 
-func SectionListByBookId(bookId string, c *gin.Context) ([]*model.Section, error) {
+func SectionListByBookId(bookId string, pageNum int, pageSize int, c *gin.Context) ([]*model.Section, error) {
 	var sectionList []*model.Section
 	searchSource := elastic.NewSearchSource()
 	var include, exclude []string
@@ -44,7 +44,9 @@ func SectionListByBookId(bookId string, c *gin.Context) ([]*model.Section, error
 	exclude = []string{"SectionContent"}
 	searchSource.FetchSourceIncludeExclude(include, exclude)
 	esQuery := elastic.NewMatchQuery("BookId", bookId)
-	searchResult, err := global.GVA_ES.Search().Index("section").SearchSource(searchSource).Query(esQuery).Sort("SectionSeq", false).Do(c.Request.Context())
+	searchResult, err := global.GVA_ES.Search().Index("section").SearchSource(searchSource).Query(esQuery).
+		From(pageNum-1).Size(pageSize).
+		Sort("SectionSeq", true).Do(c.Request.Context())
 	if err != nil {
 		log.Println(err)
 		return nil, err

@@ -40,6 +40,8 @@ func Sections(c *gin.Context) {
 // @accept application/json
 // @Produce application/json
 // @Param bookId path int true "1"
+// @Param pageNum query int true "1"
+// @Param pageSize query int true "50"
 // @Success 200 {object} response.Response
 // @Header 200 {string} x-token "qwerty"
 // @Failure 500 {object} response.Response
@@ -50,7 +52,15 @@ func SectionListByBookId(c *gin.Context) {
 		response.FailMsg(c, "bookId not specified")
 		return
 	}
-	sections, err := service.SectionListByBookId(bookId, c)
+	pageNum := 1
+	pageSize := 50
+	if i, err := strconv.Atoi(c.Query("pageNum")); err == nil {
+		pageNum = i
+	}
+	if i, err := strconv.Atoi(c.Query("pageSize")); err == nil {
+		pageSize = i
+	}
+	sections, err := service.SectionListByBookId(bookId, pageNum, pageSize, c)
 	if err != nil {
 		response.FailMsg(c, err.Error())
 	}

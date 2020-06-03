@@ -214,6 +214,16 @@ paths:
         name: bookId
         required: true
         type: integer
+      - description: "1"
+        in: query
+        name: pageNum
+        required: true
+        type: integer
+      - description: "50"
+        in: query
+        name: pageSize
+        required: true
+        type: integer
       produces:
       - application/json
       responses:
