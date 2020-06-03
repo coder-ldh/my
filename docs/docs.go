@@ -376,7 +376,7 @@ var doc = `{
         },
         "/section/one/{sectionId}": {
             "get": {
-                "description": "查询书下所有章节信息",
+                "description": "查询当前章节内容",
                 "consumes": [
                     "application/json"
                 ],
@@ -386,7 +386,7 @@ var doc = `{
                 "tags": [
                     "section"
                 ],
-                "summary": "查询书下所有章节信息",
+                "summary": "查询当前章节内容",
                 "parameters": [
                     {
                         "type": "integer",

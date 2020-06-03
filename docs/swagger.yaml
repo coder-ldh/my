@@ -246,7 +246,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: 查询书下所有章节信息
+      description: 查询当前章节内容
       parameters:
       - description: "1"
         in: path
@@ -268,7 +268,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/response.Response'
-      summary: 查询书下所有章节信息
+      summary: 查询当前章节内容
       tags:
       - section
   /syn:

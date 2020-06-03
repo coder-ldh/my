@@ -68,8 +68,8 @@ func SectionListByBookId(c *gin.Context) {
 }
 
 // @Tags section
-// @Description 查询书下所有章节信息
-// @Summary 查询书下所有章节信息
+// @Description 查询当前章节内容
+// @Summary 查询当前章节内容
 // @accept application/json
 // @Produce application/json
 // @Param sectionId path int true "1"

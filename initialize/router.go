@@ -28,6 +28,6 @@ func Routers() *gin.Engine {
 	router.InitBookRouter(ApiGroup)
 	router.InitSectionRouter(ApiGroup)
 	router.InitCaptchaRouter(ApiGroup)
-	global.GVA_LOG.Info("router register success")
+	global.GVA_LOG.Debug("router register success")
 	return Router
 }
