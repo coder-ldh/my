@@ -11,7 +11,7 @@ import (
 func Mysql() {
 	mysql := global.GVA_CONFIG.Mysql
 	var url = mysql.Username + ":" + mysql.Password + "@(" + mysql.Path + ")/" + mysql.Dbname + "?" + mysql.Config
-	global.GVA_LOG.Info("MySQL连接信息:", url)
+	global.GVA_LOG.Debug("MySQL连接信息:", url)
 	if db, err := gorm.Open("mysql", url); err != nil {
 		global.GVA_LOG.Error("MySQL启动异常:", err)
 		os.Exit(0)
