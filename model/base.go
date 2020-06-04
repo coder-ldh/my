@@ -1,13 +1,15 @@
 package model
 
-import "time"
+import (
+	"time"
+)
 
 type Base struct {
 	Id int `gorm:"size:11;primary_key;AUTO_INCREMENT;not null" json:"id"`
 	//是否删除
 	Delete bool `json:"delete"`
 	//乐观锁
-	Revision int `json:"revision"`
+	Revision *int `json:"revision"`
 	//创建人
 	CreatedBy int `json:"createdBy"`
 	//创建时间

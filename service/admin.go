@@ -25,9 +25,9 @@ func GetAdminList(pageNum int, pageSize int) ([]*model.Admin, error) {
 }
 
 func GetAdminByLoginName(LoginName string) (*model.Admin, error) {
-	var admin *model.Admin
-	error := global.GVA_DB.Find(&admin).Error
-	if error != nil && error != gorm.ErrRecordNotFound {
+	var admin = new(model.Admin)
+	error := global.GVA_DB.Where("login_name = ?", LoginName).First(&admin).Error
+	if error != nil && error == gorm.ErrRecordNotFound {
 		return nil, error
 	}
 	return admin, nil

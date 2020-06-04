@@ -1,4 +1,11 @@
 definitions:
+  api.LoginParam:
+    properties:
+      loginName:
+        type: string
+      password:
+        type: string
+    type: object
   response.Response:
     properties:
       code:
@@ -12,6 +19,36 @@ info:
   contact: {}
   license: {}
 paths:
+  /admin/login:
+    post:
+      consumes:
+      - application/json
+      description: 登陆
+      parameters:
+      - description: '{'
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/api.LoginParam'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          headers:
+            x-token:
+              description: qwerty
+              type: string
+          schema:
+            $ref: '#/definitions/response.Response'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/response.Response'
+      summary: 登陆
+      tags:
+      - admin
   /base/captcha:
     get:
       consumes:
